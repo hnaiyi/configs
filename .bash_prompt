@@ -1,0 +1,13 @@
+YELLOW="\[\e[38;5;130m\]"
+BLUE="\[\e[34m\]"
+CYAN="\[\e[36m\]"
+GREEN="\[\e[32m\]"
+
+
+PS_USER="$YELLOW\u$RESET"
+PS_HOST="$YELLOW\h$RESET"
+PS_CWD="$BLUE\w$RESET"
+PS_TIME="$CYAN"'$(/bin/date)'"$RESET"
+PS_PROMPT="$GREEN$\[\e[39m\] "
+
+export PS1="${PS_USER}$YELLOW@${PS_HOST}: ${PS_CWD}\n${PS_TIME} ${PS_PROMPT}"
