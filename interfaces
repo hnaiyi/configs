@@ -1,7 +1,9 @@
+# /etc/network/interfaces
 # interfaces(5) file used by ifup(8) and ifdown(8)
 auto lo
 iface lo inet loopback
 
+# Set interface metric
 auto wlx9cefd5fedfe7
 iface wlx9cefd5fedfe7 inet dhcp
 metric 10
