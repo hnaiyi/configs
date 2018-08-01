@@ -1,13 +1,70 @@
-YELLOW="\[\e[38;5;130m\]"
-BLUE="\[\e[34m\]"
-CYAN="\[\e[36m\]"
-GREEN="\[\e[32m\]"
+RESET_COLOR="\e[0m"
+ORANGE="\e[38;5;166m"
+BLUE="\e[38;5;33m"
+CYAN="\e[38;5;36m"
+GREEN="\e[38;5;46m"
+YELLOW="\e[38;5;149m"
+RED="\e[38;5;196m"
 
+PS_USER="\[$ORANGE\]\u\[$RESET_COLOR\]"
+PS_HOST="\[$ORANGE\]\h\[$RESET_COLOR\]"
+PS_AT="\[\e[38;5;172m\]@\[$RESET_COLOR\]"
+PS_CWD="\[$BLUE\]\w\[$RESET_COLOR\]"
+PS_TIME="\[$CYAN\]"'$(/bin/date)'"\[$RESET_COLOR\]"
+PS_PROMPT="\[$GREEN\]$\[$RESET_COLOR\] "
 
-PS_USER="$YELLOW\u$RESET"
-PS_HOST="$YELLOW\h$RESET"
-PS_CWD="$BLUE\w$RESET"
-PS_TIME="$CYAN"'$(/bin/date)'"$RESET"
-PS_PROMPT="$GREEN$\[\e[39m\] "
+git_branch()
+{
+  local git_status="$(git status 2> /dev/null)"
+  local on_branch="On branch ([^${IFS}]*)"
+  local on_detached="HEAD detached (at|from) ([^${IFS}]*)"
+  local to_be_committed="Changes to be committed"
+  local to_be_staged="Changes not staged for commit"
+  local to_be_merged="You have unmerged path"
+  local to_be_tracked="Untracked files"
+ 
+  local branch=""
 
-export PS1="${PS_USER}$YELLOW@${PS_HOST}: ${PS_CWD}\n${PS_TIME} ${PS_PROMPT}"
+  if [[ $git_status =~ $on_branch ]]; then
+    branch=${BASH_REMATCH[1]}
+  fi
+
+  if [[ $git_status =~ $on_detached ]]; then
+    branch=${BASH_REMATCH[2]}
+  fi
+
+  if [ ! -z "$branch" ]; then
+    if [[ $git_status =~ $to_be_committed ]]; then
+      branch=$branch\+
+    fi
+
+    if [[ $git_status =~ $to_be_staged || $git_status =~ $to_be_merged ]]; then
+      branch=$branch\*
+    fi
+
+    if [[ $git_status =~ $to_be_tracked ]]; then
+      branch=$branch\?
+    fi
+
+    echo -e "[$branch]"
+  fi
+}
+
+git_color()
+{
+  local git_status="$(git status 2> /dev/null)"
+  local check_detached="HEAD detached (at|from) ([^${IFS}]*)"
+  local check_ahead="Your branch is ahead of"
+  local check_behind="Your branch is behind"
+  local check_diverged="Your branch and '[^${IFS}]*' have diverged"
+
+  if [[ $git_status =~ $check_detached ]]; then
+    echo -e "$RED"
+  elif [[ $git_status =~ $check_ahead || $git_status =~ $check_behind || $git_status =~ $check_diverged ]]; then
+    echo -e "$YELLOW"
+  else
+    echo -e "$GREEN"
+  fi
+}
+
+export PS1="${PS_USER}${PS_AT}${PS_HOST}: ${PS_CWD}\n${PS_TIME}\n\[\$(git_color)\]\$(git_branch)${PS_PROMPT}"
