@@ -1,0 +1,7 @@
+# interfaces(5) file used by ifup(8) and ifdown(8)
+auto lo
+iface lo inet loopback
+
+auto wlx9cefd5fedfe7
+iface wlx9cefd5fedfe7 inet dhcp
+metric 10
