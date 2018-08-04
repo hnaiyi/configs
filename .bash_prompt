@@ -13,6 +13,14 @@ PS_CWD="\[$BLUE\]\w\[$RESET_COLOR\]"
 PS_TIME="\[$CYAN\]"'$(/bin/date)'"\[$RESET_COLOR\]"
 PS_PROMPT="\[$GREEN\]$\[$RESET_COLOR\] "
 
+git_root() {
+  local root_dir="$(git rev-parse --show-toplevel 2> /dev/null | sed -e 's/.*\///')"
+
+  if [[ ! -z "$root_dir" ]]; then
+    echo [$root_dir]
+  fi
+}
+
 git_branch()
 {
   local git_status="$(git status 2> /dev/null)"
@@ -67,4 +75,4 @@ git_color()
   fi
 }
 
-export PS1="${PS_USER}${PS_AT}${PS_HOST}: ${PS_CWD}\n${PS_TIME}\n\[\$(git_color)\]\$(git_branch)${PS_PROMPT}"
+export PS1="${PS_USER}${PS_AT}${PS_HOST}: ${PS_CWD}\n${PS_TIME}\n\[$BLUE\]\$(git_root)\[\$(git_color)\]\$(git_branch)${PS_PROMPT}"
