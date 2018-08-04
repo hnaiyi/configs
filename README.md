@@ -1,5 +1,5 @@
 # Common configs
 
-## Bash prompt
+## .bash_prompt
  - Multi-line bash prompt
  - Show git status
