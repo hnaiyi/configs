@@ -22,3 +22,8 @@ Add copy public keys to the server ~/.ssh/authorized_keys
 Use puttygen to load private key, and copy public key to authorized_keys.
 The public keys should be in the form of:
 ssh-rsa xxxxxxxxx== rsa-key-20180721
+
+
+Github authentication
+# ssh-keygen -t rsa -b 2048
+Upload public key to Github.
