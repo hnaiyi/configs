@@ -1,0 +1,21 @@
+Ubuntu setup
+
+SSH sever
+
+Update package repository
+$ sudo apt-get update
+
+Install openssh server
+$ sudo apt-get install openssh-server
+
+Modify port and disable password authentication:
+Port xxxx
+PasswordAuthentication no
+
+Restart ssh server
+$ sudo service ssh restart
+
+Add copy public keys to the server ~/.ssh/authorized_keys
+Use puttygen to load private key, and copy public key to authorized_keys.
+The public keys should be in the form of:
+ssh-rsa xxxxxxxxx== rsa-key-20180721
