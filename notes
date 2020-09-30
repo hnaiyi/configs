@@ -1,7 +1,7 @@
 Ubuntu setup
 - Install guest tool
 - NAT and port forwarding
-
+- Preference - input - disable auto keyboard capture (so alt+tab will not be captured by the guest system)
 
 SSH sever
 
